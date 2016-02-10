@@ -9,7 +9,7 @@ class ByteFrequencyAnalyzer:
     val = struct.unpack('B', byte)[0]
     self.__frequency[val] = self.__frequency[val] + 1
 
-  def clean(self):
+  def smoothen(self):
     return (
       self
         .normalize()

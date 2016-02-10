@@ -9,5 +9,14 @@ analyzer = ByteFrequencyAnalyzer()
 
 reader.read(analyzer.compute)
 print analyzer.clean()
-
 ```
+
+##Byte Frequency Correlation
+
+```python
+from bfc.bfc import *
+
+fs = ByteFrequencyCorrelator(baseSignature)
+print fs.correlate(compareWith)
+```
+
