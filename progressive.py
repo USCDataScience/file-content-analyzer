@@ -1,6 +1,8 @@
-__import__('download.py')
 from multiprocessing import Pool
 from os.path import join
+
+from download import *
+import sys
 
 FOLDERS = [
   "1", "107", "108", "118", "12", "137", "140", "16", "160", "170", "171", "188",
@@ -22,11 +24,10 @@ FOLDERS = [
 
 
 def load(folder):
-  dfs_traversal(join(MOUNT_POINT, folder), END_POINT)
+  dfs_traversal(join(sys.argv[1], folder), sys.argv[2])
   print " ---- COMPLETED ---- {0}".format(folder)
   return
 
 if __name__ == '__main__':
   p = Pool(5)
-  MOUNT_POINT = sys.argv[1]
   p.map(load, FOLDERS)
