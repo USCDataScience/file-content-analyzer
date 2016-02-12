@@ -24,8 +24,13 @@ FOLDERS = [
 
 
 def load(folder):
-  dfs_traversal(join(sys.argv[1], folder), sys.argv[2])
+  print " ---- STARTED ---- {0}".format(folder)
+  dfs_traversal(join(sys.argv[1], folder), sys.argv[2])  
   print " ---- COMPLETED ---- {0}".format(folder)
+
+  with open("done.log", "a") as f:
+    f.write("{0}\n".format(folder))
+
   return
 
 if __name__ == '__main__':
