@@ -10,10 +10,7 @@ import re
 import sys
 
 
-MOUNT_POINT = sys.argv[1]
-END_POINT = sys.argv[2]
-
-def fetchFile(path):
+def fetchFile(path, END_POINT):
   tp = detector.from_file(path).replace("/", "-")
   fileName = ntpath.basename(path)
 
@@ -24,12 +21,16 @@ def fetchFile(path):
   print "{0} {1}".format(tp, fileName)
 
 
-def dfs_traversal(path):
+def dfs_traversal(path, END_POINT):
   if isfile(path):
-    fetchFile(path)
+    fetchFile(path, END_POINT)
     return
 
   for f in listdir(path):
-    dfs_traversal(join(path, f))
+    dfs_traversal(join(path, f), END_POINT)
 
-dfs_traversal(MOUNT_POINT)
+if __name__ == '__main__':
+  MOUNT_POINT = sys.argv[1]
+  END_POINT = sys.argv[2]
+
+  dfs_traversal(MOUNT_POINT, END_POINT)
