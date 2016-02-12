@@ -1,7 +1,7 @@
 ##Byte Frequency Analysis
 
 ```python
-from io.reader import *
+from rw.reader import *
 from bfa.bfa import *
 
 reader = FileReader(" PATH TO FILE ")
