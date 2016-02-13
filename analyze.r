@@ -5,7 +5,7 @@ library('corrplot')
 python.load("/Users/nithinkrishna/projects/content/analytics-engine/bfa/bfa.py")
 python.load("/Users/nithinkrishna/projects/content/analytics-engine/bfc/bfc.py")
 python.load("/Users/nithinkrishna/projects/content/analytics-engine/bfcc/bfcc.py")
-python.load("/Users/nithinkrishna/projects/content/analytics-engine/io/reader.py")
+python.load("/Users/nithinkrishna/projects/content/analytics-engine/rw/reader.py")
 
 byte_frequency <- function(file_name){
   cmd <- fn$identity("r1 = FileReader('`file_name`')")
