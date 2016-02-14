@@ -36,4 +36,8 @@ tika-rest-server
 
 # Start the download script
 python download.py <MOUNT_POINT> <END_POINT>
+
+# To count the number of files of each type
+find <END_POINT> -type f | sed 's%/[^/]*$%%' | sort | uniq -c
 ```
+
