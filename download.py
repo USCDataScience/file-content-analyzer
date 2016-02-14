@@ -9,34 +9,13 @@ import re
 import sys
 import time
 
-import pdb
-
-
-class FileCountHandler:
-  def __init__(self, path):
-    self.file = join(path,"count")
-
-  def readCount(self):
-    return int(tuple(open(self.file, "r"))[0])
-
-  def writeCount(self, count):
-    f = open(self.file, "w+")
-    return f.write(str(count))
-
-  def incrementCount(self):
-    self.writeCount(self.readCount() + 1)
-
 def safeMakeDir(path):
   if not isdir(path):
     mkdir(path)
 
 def writeFile(folder, fileName, tmpPath):
-  countH = FileCountHandler(folder)
-  subFolder = countH.readCount() / 100
-  safeMakeDir(join(folder, str(subFolder)))
-  fPath = join(folder, str(subFolder), fileName)
+  fPath = join(folder, fileName)
   move(tmpPath, fPath)
-  countH.incrementCount()
   print "{0}".format(fPath)
 
 
@@ -52,9 +31,7 @@ def fetchFile(path, END_POINT):
 
   d = join(END_POINT, tp)
 
-  if not isdir(d):
-    safeMakeDir(d)
-    FileCountHandler(d).writeCount(0)
+  safeMakeDir(d)
 
   writeFile(d, fileName, tmpPath)
 
