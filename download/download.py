@@ -40,9 +40,7 @@ def fetchFile(path, END_POINT):
 
   d = join(END_POINT, tp)
 
-  if not isdir(d):
-    safeMakeDir(d)
-    FileCountHandler(d).writeCount(0)
+  safeMakeDir(d)
 
   saveFile(d, fileName, tmpPath)
 
