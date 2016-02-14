@@ -8,6 +8,7 @@ from os import listdir
 
 FOLDERS = listdir(sys.argv[1])
 
+DONE_LIST = [ ]
 
 def load(folder):
   print " ---- STARTED ---- {0}".format(folder)
@@ -21,4 +22,5 @@ def load(folder):
 
 if __name__ == '__main__':
   p = Pool(20)
-  p.map(load, FOLDERS)
+  left = filter(lambda f: f not in DONE_LIST, FOLDERS)
+  p.map(load, left)
