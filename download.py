@@ -32,7 +32,7 @@ def safeMakeDir(path):
 
 def writeFile(folder, fileName, tmpPath):
   countH = FileCountHandler(folder)
-  subFolder = countH.readCount() / 100
+  subFolder = int(countH.readCount() / 100) + 1
   safeMakeDir(join(folder, str(subFolder)))
   fPath = join(folder, str(subFolder), fileName)
   move(tmpPath, fPath)
