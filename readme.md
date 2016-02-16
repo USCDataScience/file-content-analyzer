@@ -5,7 +5,7 @@ from rw.reader import *
 from bfa.bfa import *
 
 reader = FileReader(" PATH TO FILE ")
-analyzer = ByteFrequencyAnalyzer()
+analyzer = BFAnalyzer()
 
 reader.read(analyzer.compute)
 print analyzer.clean()
@@ -16,7 +16,7 @@ print analyzer.clean()
 ```python
 from bfc.bfc import *
 
-fs = ByteFrequencyCorrelator(baseSignature)
+fs = BFCorrelator(baseSignature)
 print fs.correlate(compareWith)
 ```
 

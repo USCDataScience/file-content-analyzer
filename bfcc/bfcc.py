@@ -3,7 +3,7 @@ import math
 SIGMA = 0.0035
 SIGMA_SQR = SIGMA * SIGMA
 
-class ByteFrequencyCrossCorrelator:
+class BFCrossCorrelator:
   def __init__(self, baseSignature):
     self.baseSignature = baseSignature
 

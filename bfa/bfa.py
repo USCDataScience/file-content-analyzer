@@ -1,7 +1,7 @@
 import struct
 import math
 
-class ByteFrequencyAnalyzer:
+class BFAnalyzer:
   def __init__(self):
     self.__frequency = map(lambda x: float(0), range(256))
 
