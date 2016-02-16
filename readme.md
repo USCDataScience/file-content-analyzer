@@ -38,6 +38,18 @@ tika-rest-server
 python download.py <MOUNT_POINT> <END_POINT>
 
 # To count the number of files of each type
-find <END_POINT> -type f | sed 's%/[^/]*$%%' | sort | uniq -c
+find <END_POINT> -type f | sed 's%/[^/]*$%%' | sort | uniq -cl
 ```
 
+Progressive file download: Tika server is inherently multi-threaded. So parallilizing the download
+process reduces the download time considerably. Using python `multiprocess` download and parsing
+of the files from the S3 bucket can be parallilized. Initial investigation revieled that `com/` and
+`org/` are the 2 biggest subfolders in the S3 bucket. Thus 3 seperate python processes each for the
+contents of com, org and all the other folders is an optimal download strategey. Each python process
+parallilizes with 5 threads each. 
+
+```
+python -u progressive.py <MOUNT_POINT>/org <END_POINT>/org progress-org.log > progress-org-op.log & disown
+python -u progressive.py <MOUNT_POINT>/com <END_POINT>/com progress-com.log > progress-com-op.log & disown
+python -u progressive.py <MOUNT_POINT>/other <END_POINT>/other progress-other.log > progress-other-op.log & disown
+```

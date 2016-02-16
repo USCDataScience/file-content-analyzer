@@ -3,3 +3,5 @@
 test.py
 .DS_Store
 test/
+*.log
+*/*.log
