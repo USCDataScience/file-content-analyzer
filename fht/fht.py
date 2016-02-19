@@ -1,34 +1,43 @@
 import math
+import pdb
 
-class FileHeaderTrailer:
-  def __init__(self, baseSignature, prev_files, byte, file1):
-    self.baseSignature=baseSignature
-    self.byte=byte
-    self.file=file1
-    self.prev_files=prev_files
+class FHTAnalyzer:
+  def __init__(self, offset):
+    self.offset = offset
 
-  def fht(self):
-    signature = Matrix= [[0 for x in range(256)]for x in range(self.byte)]
-    size=len(self.file)
-    for i in range(self.byte):
-      for j in range(256):
-        no= self.file.read(8)
-        if(j==no):
-          signature[i][j]=1
-        else:
-          signature[i][j]=0
-        if(i>=size):
-          signature[i][j]=-1
+  def __handleSmallFiles(self, hBytes, tBytes):
+    headSignature = [ [0 for x in range(256)] for x in range(self.offset) ]
+    tailSignature = [ [0 for x in range(256)] for x in range(self.offset) ]
 
-    newSignature=Matrix= [[0 for x in range(256)]for x in range(self.byte)]
+    for i in range(0, len(hBytes)):
+      hVal = struct.unpack('B', hBytes[i])[0]
+      headSignature[i][hVal] = 1
 
-    for i in range(self.byte):
-      for j in range(256):
-        newSignature=((self.baseSignature[i][j]*self.prev_files)+ signature[i][j])/(self.prev_files+1)
+    for i in range(0, self.offset - len(hBytes)):
+      headSignature[i + self.offset][hVal] = -1
 
+    for i in range(0, len(tBytes)):
+      tVal = struct.unpack('B', tBytes[i])[0]
+      tailSignature[i + (self.offset - len(tBytes))][tVal] = 1
 
-  return newSignature
+    for i in range(0, self.offset - len(tBytes)):
+      tailSignature[i + self.offset][hVal] = -1
 
+    return (headSignature, tailSignature)
 
+  def compute(self, hBytes, tBytes):
 
+    if len(hBytes) < self.offset or len(tBytes) < self.offset:
+      return self.__handleSmallFiles(hBytes, tBytes)
 
+    headSignature = [ [0 for x in range(256)] for x in range(self.offset) ]
+    tailSignature = [ [0 for x in range(256)] for x in range(self.offset) ]
+
+    for i in range(0, self.offset):
+      hVal = struct.unpack('B', hBytes[i])[0]
+      headSignature[i][hVal] = 1
+
+      tVal = struct.unpack('B', tBytes[i])[0]
+      tailSignature[i][tVal] = 1
+
+    return(headSignature, tailSignature)
