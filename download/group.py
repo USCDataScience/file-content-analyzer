@@ -12,14 +12,14 @@ PATH = sys.argv[1]
 def listFolders(path):
   return filter(lambda f: isdir(join(path, f)), listdir(path))
 
-def initTypeDir(path):
+def safeMkdir(path):
   if not isdir(path):
     mkdir(path)
 
 def processType(tp, sourcePath):
   print "-- STARTED -- {0}".format(sourcePath)
-  destPath = join(PATH, tp)
-  initTypeDir(destPath)
+  destPath = join(PATH, "final", tp)
+  safeMkdir(destPath)
 
   sFolders = listFolders(sourcePath)
 
@@ -35,12 +35,16 @@ def processType(tp, sourcePath):
 
 def processDir(dPath):
   print "-- STARTED -- {0}".format(dPath)
-  for tp in listdir(dPath):
+  for tp in listFolders(dPath):
     tPath = join(dPath, tp)
     processType(tp, tPath)
   rmtree(dPath)
   print "-- COMPLETED -- {0}".format(dPath)
 
-for klass in listFolders(PATH):
+safeMkdir(join(PATH, "final"))
+
+folders = filter(lambda x: x not in ["final"], listFolders(PATH))
+
+for klass in folders:
   d = join(PATH, klass)
   processDir(d)
