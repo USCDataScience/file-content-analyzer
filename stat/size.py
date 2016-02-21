@@ -10,7 +10,8 @@ def listFolders(path):
 PATH   = sys.argv[1]
 OUTPUT = sys.argv[2]
 
-def processFolder(path, tp, folder, sizeFile):
+def processFolder(d):
+  (path, tp, folder, sizeFile) = d
   print "-- STARTED -- {0}".format(join(path, tp, folder))
   for file in listdir(join(path, tp, folder)):
     sizeFile.write("{0}\n".format(getsize(join(path, tp, folder, file))))
@@ -19,12 +20,9 @@ def processFolder(path, tp, folder, sizeFile):
 def processType(path, tp):
   p = Pool(20)
   sizeFile = open(join(OUTPUT, tp), "a")
-
-  def processor(f):
-    processFolder(path, tp, f, sizeFile)
-
-  p.map(processor, listFolders(join(path, tp)))
+  d = map(lambda f: (path, tp, f, sizeFile),listFolders(join(path, tp)))
+  p.map(processFolder, d)
   sizeFile.close()
 
 for tp in listFolders(PATH):
-  processType(path, tp)
+  processType(PATH, tp)
