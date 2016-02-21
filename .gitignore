@@ -5,3 +5,4 @@ test.py
 test/
 *.log
 */*.log
+stat-out/*

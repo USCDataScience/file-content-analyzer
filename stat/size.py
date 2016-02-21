@@ -1,6 +1,6 @@
 from multiprocessing import Pool
 from os import listdir
-from os.path import join, isdir
+from os.path import join, isdir, getsize
 
 import sys
 
@@ -13,14 +13,18 @@ OUTPUT = sys.argv[2]
 def processFolder(path, tp, folder, sizeFile):
   print "-- STARTED -- {0}".format(join(path, tp, folder))
   for file in listdir(join(path, tp, folder)):
-    sizeFile.write("{0}\n".format(os.path.getsize(join(path, tp, folder, file))))
+    sizeFile.write("{0}\n".format(getsize(join(path, tp, folder, file))))
   print "-- COMPLETED -- {0}".format(join(path, tp, folder))
 
-def computeSizes(path):
-  for tp in listFolders(path):
-    sizeFile = open(join(OUTPUT, tp), "a")
-    p = Pool(20)
-    p.map(lambda f: processFolder(path, tp, f, sizeFile), listFolders(join(path, tp)))
-    sizeFile.close()
+def processType(path, tp):
+  p = Pool(20)
+  sizeFile = open(join(OUTPUT, tp), "a")
 
-computeSizes(PATH)
+  def processor(f):
+    processFolder(path, tp, f, sizeFile)
+
+  p.map(processor, listFolders(join(path, tp)))
+  sizeFile.close()
+
+for tp in listFolders(PATH):
+  processType(path, tp)
