@@ -22,7 +22,6 @@ def processType(path, tp):
   sizeFile = open(join(OUTPUT, tp), "a")
   d = map(lambda f: (path, tp, f, sizeFile),listFolders(join(path, tp)))
   p.map(processFolder, d)
-  sizeFile.close()
 
 for tp in listFolders(PATH):
   processType(PATH, tp)
