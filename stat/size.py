@@ -11,16 +11,17 @@ PATH   = sys.argv[1]
 OUTPUT = sys.argv[2]
 
 def processFolder(d):
-  (path, tp, folder, sizeFile) = d
+  (path, tp, folder) = d
+  sizeFile = open(join(OUTPUT, tp), "a")
   print "-- STARTED -- {0}".format(join(path, tp, folder))
   for file in listdir(join(path, tp, folder)):
     sizeFile.write("{0}\n".format(getsize(join(path, tp, folder, file))))
+  sizeFile.close()
   print "-- COMPLETED -- {0}".format(join(path, tp, folder))
 
 def processType(path, tp):
   p = Pool(20)
-  sizeFile = open(join(OUTPUT, tp), "a")
-  d = map(lambda f: (path, tp, f, sizeFile),listFolders(join(path, tp)))
+  d = map(lambda f: (path, tp, f),listFolders(join(path, tp)))
   p.map(processFolder, d)
 
 for tp in listFolders(PATH):
