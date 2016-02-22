@@ -22,11 +22,10 @@ class BFAnalyzer:
     self.__frequency =  map(lambda x: x / norm, self.__frequency)
     return self
 
-  # A-LOG compander
+  # http://www.forensicswiki.org/w/images/f/f9/Mcdaniel01.pdf
   def compand(self):
-    A = 87.6
-    alog = lambda x: ( A * x ) / ( 1 + math.log(A, 10) ) if x < (1 / A) else ( 1 + math.log(A * x, 10) ) / ( 1 + math.log(A, 10) )
-    self.__frequency =  map(alog, self.__frequency)
+    B = 1.5
+    self.__frequency =  map(lambda x: x ** ( 1 / B), self.__frequency)
     return self
 
   def frequency(self):
