@@ -20,4 +20,4 @@ for f in directories:
 
 print "TOTAL NUMBER OF FILES {0}".format(total)
 print "TOTAL NUMBER OF FILES WITH SOME DATA {0}".format(withData)
-  
+
