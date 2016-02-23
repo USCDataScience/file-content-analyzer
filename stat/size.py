@@ -1,3 +1,4 @@
+from multiprocessing import Pool
 from os import listdir, stat
 from os.path import join, isdir, getsize
 
@@ -15,11 +16,11 @@ def processFolder(path, tp, folder, sizeFile):
     sizeFile.write("{0},{1}\n".format(file, stat(join(path, tp, folder, file)).st_size))
   print "-- COMPLETED -- {0}".format(join(path, tp, folder))
 
-def processType(path, tp):
-  for f in listFolders(join(path, tp)):
+def processType(tp):
+  for f in listFolders(join(PATH, tp)):
     sizeFile = open(join(OUTPUT, tp), "a")
-    processFolder(path, tp, f, sizeFile)
+    processFolder(PATH, tp, f, sizeFile)
     sizeFile.close()
 
-for tp in listFolders(PATH):
-  processType(PATH, tp)
+p = Pool()
+p.map(processType, listFolders(PATH))
