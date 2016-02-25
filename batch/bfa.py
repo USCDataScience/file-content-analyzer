@@ -1,5 +1,5 @@
 from multiprocessing import Pool
-from os import listdir
+from os import listdir, stat
 from os.path import join, isdir
 
 import sys
@@ -20,20 +20,22 @@ SIGNATURE_PATH = sys.argv[2]
 
 THREADS = int(sys.argv[3]) if len(sys.argv) > 3 else 20
 
-def writeSignature(signature):
+def writeSignatureToFile(signature, filePath):
   f = open(SIGNATURE_PATH, "a")
   sigString = ",".join(map(str, signature))
-  f.write("{0}\n".format(sigString))
+  fileSize = stat(filePath).st_size
+  f.write("{0},{1},{2}\n".format(filePath, fileSize, sigString))
   f.close()
 
 def processFolder(folder):
   print "-- STARTED -- {0}".format(join(PATH, folder))
 
   for file in listdir(join(PATH, folder)):
-    reader = FileReader(join(PATH, folder, file))
+    filePath = join(PATH, folder, file)
+    reader = FileReader(filePath)
     analyzer = BFAnalyzer()
     reader.read(analyzer.compute)
-    writeSignature(analyzer.smoothen())
+    writeSignatureToFile(analyzer.smoothen(), filePath)
 
   print "-- COMPLETED -- {0}".format(join(PATH, folder))
 
