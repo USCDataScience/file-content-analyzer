@@ -6,3 +6,4 @@ test/
 *.log
 */*.log
 stat-out/*
+output/*
