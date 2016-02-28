@@ -6,7 +6,7 @@ import time
 from rw.reader import *
 from bfa.bfa import *
 from bfa.compare import *
-
+from bfcc.bfcc import *
 
 # TYPE of operation
 TYPE = sys.argv[1]
@@ -19,6 +19,9 @@ def safeMkdir(path):
 
 def arrayToString(arr):
   return ",".join(map(str, arr))
+
+def matrixToString(m):
+  return "\n".join(map(arrayToString, m))
 
 def runBFA():
   SFILE_PATH = sys.argv[2]
@@ -75,6 +78,30 @@ def runBFC():
   print " You can view the visualization at {0}#/visualize/bfc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
+def runBFCC():
+  SFILE_PATH = sys.argv[2]
+
+  safeMkdir(join("output", "bfcc"))
+  fileName = time.time()
+  OP_PATH = join("output", "bfcc", str(fileName))
+
+  r = FileReader(SFILE_PATH)
+  a = BFAnalyzer()
+  r.read(a.compute)
+
+  signature = a.smoothen()
+  c = BFCrossCorrelator(signature)
+
+  f = open(OP_PATH, "w+")
+  f.write( matrixToString(c.correlate()) )
+  f.close()
+
+  print " ------ BF Cross Correlation Computed ------ "
+  print " The cross-correlation matrix has been saved in {0} ".format(OP_PATH)
+  print " RUN: cp ./output/bfcc/* /WEB_APP/data/computed/bfcc "
+  print " You can view the visualization at {0}#/visualize/bfcc/{1}".format(VISUALIZATION_APP, fileName)
+  print " ------ VISUALIZATION READY ------ "
+
 # CREATE OUTPUT PATH
 safeMkdir("output")
 
@@ -82,6 +109,8 @@ if TYPE == "bfa":
   runBFA()
 elif TYPE == "bfc":
   runBFC()
+elif TYPE == "bfcc":
+  runBFCC()
 
 
 print " Ensure that you have the visualization engine running as a Grunt JS app ( or ) "
