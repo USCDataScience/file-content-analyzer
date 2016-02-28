@@ -26,20 +26,23 @@ def writeBytesToFile(path):
     f.write(tBytes)
     f.write("\n")
     f.close()
-
+  return writer
 
 def processFolder(folder):
   print "-- STARTED -- {0}".format(join(PATH, folder))
 
   for file in listdir(join(PATH, folder)):
-    FHTAnalyzer(8).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 8)))
-    FHTAnalyzer(16).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 16)))
-    FHTAnalyzer(32).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 32)))
+    filePath = join(PATH, folder, file)
+    HTFileReader(filePath, 8).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 8)))
+    HTFileReader(filePath, 16).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 16)))
+    HTFileReader(filePath, 32).read(writeBytesToFile("{0}-{1}".format(SIGNATURE_PATH, 32)))
 
   print "-- COMPLETED -- {0}".format(join(PATH, folder))
 
-p = Pool(THREADS)
-p.map(processFolder, listFolders(PATH))
+for f in listFolders(PATH):
+	processFolder(f)
+#p = Pool(THREADS)
+#p.map(processFolder, listFolders(PATH))
 
 
 
