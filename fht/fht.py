@@ -1,9 +1,11 @@
 import math
+import struct
 import pdb
 
 class FHTAnalyzer:
   def __init__(self, offset):
     self.offset = offset
+    self._signature = None
 
   def __handleSmallFiles(self, hBytes, tBytes):
     headSignature = [ [0 for x in range(256)] for x in range(self.offset) ]
@@ -13,17 +15,17 @@ class FHTAnalyzer:
       hVal = struct.unpack('B', hBytes[i])[0]
       headSignature[i][hVal] = 1
 
-    for i in range(0, self.offset - len(hBytes)):
-      headSignature[i + self.offset][hVal] = -1
+    for i in range(len(hBytes), self.offset):
+      headSignature[i] = map(lambda x: -1, range(256))
 
     for i in range(0, len(tBytes)):
       tVal = struct.unpack('B', tBytes[i])[0]
       tailSignature[i + (self.offset - len(tBytes))][tVal] = 1
 
-    for i in range(0, self.offset - len(tBytes)):
-      tailSignature[i + self.offset][hVal] = -1
+    for i in range(len(tBytes), self.offset):
+      tailSignature[i] = map(lambda x: -1, range(256))
 
-    return (headSignature, tailSignature)
+    self._signature = (headSignature, tailSignature)
 
   def compute(self, hBytes, tBytes):
 
@@ -40,4 +42,7 @@ class FHTAnalyzer:
       tVal = struct.unpack('B', tBytes[i])[0]
       tailSignature[i][tVal] = 1
 
-    return(headSignature, tailSignature)
+    self._signature = (headSignature, tailSignature)
+
+  def signature(self):
+    return self._signature

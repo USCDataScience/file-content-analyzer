@@ -8,6 +8,10 @@ from bfa.bfa import *
 from bfa.compare import *
 from bfcc.bfcc import *
 
+from rw.ht_reader import *
+from fht.fht import *
+
+
 # TYPE of operation
 TYPE = sys.argv[1]
 
@@ -102,6 +106,34 @@ def runBFCC():
   print " You can view the visualization at {0}#/visualize/bfcc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
+
+def runFHT():
+  SFILE_PATH = sys.argv[2]
+  OFFSET = int(sys.argv[3])
+
+  safeMkdir(join("output", "fht"))
+  fileName = time.time()
+  OP_PATH = join("output", "fht", str(fileName))
+
+  r = HTFileReader(SFILE_PATH, OFFSET)
+  fht = FHTAnalyzer(OFFSET)
+  r.read(fht.compute)
+
+  f = open(OP_PATH, "w+")
+  (hSig, fSig) = fht.signature()
+  f.write(str(OFFSET))
+  f.write("\n")
+  f.write( matrixToString(hSig) )
+  f.write("\n")
+  f.write( matrixToString(fSig) )
+  f.close()
+
+  print " ------ FHT Matrix Computed ------ "
+  print " The HTML matrix has been saved in {0} ".format(OP_PATH)
+  print " RUN: cp ./output/fht/* /WEB_APP/data/computed/fht "
+  print " You can view the visualization at {0}#/visualize/fht/{1}".format(VISUALIZATION_APP, fileName)
+  print " ------ VISUALIZATION READY ------ "
+
 # CREATE OUTPUT PATH
 safeMkdir("output")
 
@@ -111,6 +143,8 @@ elif TYPE == "bfc":
   runBFC()
 elif TYPE == "bfcc":
   runBFCC()
+elif TYPE == "fht":
+  runFHT()
 
 
 print " Ensure that you have the visualization engine running as a Grunt JS app ( or ) "
