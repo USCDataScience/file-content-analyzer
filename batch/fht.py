@@ -17,7 +17,7 @@ PATH   = sys.argv[1]
 # Path where the signatures are accumulated
 SIGNATURE_PATH = sys.argv[2]
 
-THREADS = int(sys.argv[3])
+THREADS = int(sys.argv[3]) if len(sys.argv) > 3 else 5
 
 def writeBytesToFile(path):
   def writer(hBytes, tBytes):
@@ -39,10 +39,8 @@ def processFolder(folder):
 
   print "-- COMPLETED -- {0}".format(join(PATH, folder))
 
-for f in listFolders(PATH):
-	processFolder(f)
-#p = Pool(THREADS)
-#p.map(processFolder, listFolders(PATH))
+p = Pool(THREADS)
+p.map(processFolder, listFolders(PATH))
 
 
 
