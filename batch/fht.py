@@ -24,7 +24,6 @@ def writeBytesToFile(path):
     f = open(path, "a")
     f.write(hBytes)
     f.write(tBytes)
-    f.write("\n")
     f.close()
   return writer
 
