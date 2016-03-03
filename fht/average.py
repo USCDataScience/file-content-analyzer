@@ -26,3 +26,13 @@ class FHTAverage:
     initHead = [ [0 for x in range(256)] for x in range(offset) ]
     initTrail = [ [0 for x in range(256)] for x in range(offset) ]
     return FHTAverage((initHead, initTrail), 0)
+
+  def __str__(self):
+    arrayToString   = lambda x: ",".join(map(str, x))
+    matrixToString  = lambda m: "\n".join(map(arrayToString, m))
+
+    return "{0}\n{1}\n{2}".format(
+      self.offset,
+      matrixToString(self._fingerprint[0]),
+      matrixToString(self._fingerprint[1]),
+    )

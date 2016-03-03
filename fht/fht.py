@@ -1,6 +1,5 @@
 import math
 import struct
-import pdb
 
 class FHTAnalyzer:
   def __init__(self, offset):
@@ -46,3 +45,13 @@ class FHTAnalyzer:
 
   def signature(self):
     return self._signature
+
+  def __str__(self):
+    arrayToString   = lambda x: ",".join(map(str, x))
+    matrixToString  = lambda m: "\n".join(map(arrayToString, m))
+
+    return "{0}\n{1}\n{2}".format(
+      self.offset,
+      matrixToString(self._signature[0]),
+      matrixToString(self._signature[1]),
+    )

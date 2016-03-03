@@ -1,5 +1,3 @@
-import pdb
-
 class Comparator:
   def __init__(self, fingerprint, matrix):
     self.fingerprint = fingerprint
@@ -27,6 +25,9 @@ class CompareFHT:
   def __init__(self, fhtFingerprint, fhtFile):
     self.fhtFingerprint = fhtFingerprint
     self.fhtFile = fhtFile
+
+    # Assuming both matrices are of the same dimension
+    self.offset = len(self.fhtFingerprint[0])
     self._correlation = None
 
   def correlate(self):
@@ -36,7 +37,7 @@ class CompareFHT:
 
     c1 = Comparator(self.fhtFingerprint[0], self.fhtFile[0]).compare()
     c2 = Comparator(self.fhtFingerprint[1], self.fhtFile[1]).compare()
-    self._correlation = [c1, c2]
+    self._correlation = (c1, c2)
     return self._correlation
 
   def assuranceLevel(self):
@@ -47,3 +48,13 @@ class CompareFHT:
     al = max( sum(cor[0]) / len(cor[0]), sum(cor[0]) / len(cor[1]) )
 
     return al
+
+  def __str__(self):
+    arrayToString   = lambda x: ",".join(map(str, x))
+    matrixToString  = lambda m: "\n".join(map(arrayToString, m))
+
+    return "{0}\n{1}\n{2}".format(
+      self.offset,
+      matrixToString(self._correlation[0]),
+      matrixToString(self._correlation[1]),
+    )

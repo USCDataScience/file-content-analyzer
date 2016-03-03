@@ -57,8 +57,5 @@ def processSignatures(file):
 
   print "-- COMPLETED -- {0}".format(file)
 
-# p = Pool(20)
-# p.map(processSignatures, listdir(PATH))
-
-
-processSignatures(PATH)
+p = Pool(20)
+p.map(processSignatures, listdir(PATH))

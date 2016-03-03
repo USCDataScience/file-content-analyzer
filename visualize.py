@@ -10,6 +10,8 @@ from bfa.cross import *
 
 from rw.ht_reader import *
 from fht.fht import *
+from fht.compare import *
+from fht.average import *
 
 # TYPE of operation
 TYPE = sys.argv[1]
@@ -19,12 +21,6 @@ VISUALIZATION_APP = "http://localhost:9000"
 def safeMkdir(path):
   if not isdir(path):
     mkdir(path)
-
-def arrayToString(arr):
-  return ",".join(map(str, arr))
-
-def matrixToString(m):
-  return "\n".join(map(arrayToString, m))
 
 def runBFA():
   SFILE_PATH = sys.argv[2]
@@ -36,14 +32,15 @@ def runBFA():
   r = FileReader(SFILE_PATH)
   a = BFAnalyzer()
   r.read(a.compute)
+  a.smoothen()
 
   f = open(OP_PATH, "w+")
-  f.write( arrayToString(a.smoothen()) )
+  f.write( str(a) )
   f.close()
 
   print " ------ BFA Signature Computed ------ "
   print " The signature has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfa/* /WEB_APP/data/computed/bfa "
+  print " RUN: cp ./output/bfa/{0} ../content-visualization/app/data/computed/bfa/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfa/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -66,18 +63,15 @@ def runBFC():
   baseSignature = a1.smoothen()
   cmpSignature = a2.smoothen()
   c = ByteFrequencyCorrelator(baseSignature)
+  c.correlate(cmpSignature)
 
   f = open(OP_PATH, "w+")
-  f.write( arrayToString(baseSignature) )
-  f.write("\n")
-  f.write( arrayToString(cmpSignature) )
-  f.write("\n")
-  f.write( arrayToString(c.correlate(cmpSignature)) )
+  f.write( str(c) )
   f.close()
 
   print " ------ BF Correlation Computed ------ "
   print " The correlation has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfc/* /WEB_APP/data/computed/bfc "
+  print " RUN: cp ./output/bfc/{0} ../content-visualization/app/data/computed/bfc/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -94,14 +88,15 @@ def runBFCC():
 
   signature = a.smoothen()
   c = BFCrossCorrelator(signature)
+  c.correlate()
 
   f = open(OP_PATH, "w+")
-  f.write( matrixToString(c.correlate()) )
+  f.write( str(c) )
   f.close()
 
   print " ------ BF Cross Correlation Computed ------ "
   print " The cross-correlation matrix has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfcc/* /WEB_APP/data/computed/bfcc "
+  print " RUN: cp ./output/bfcc/{0} ../content-visualization/app/data/computed/bfcc/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfcc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -119,17 +114,44 @@ def runFHT():
   r.read(fht.compute)
 
   f = open(OP_PATH, "w+")
-  (hSig, fSig) = fht.signature()
-  f.write(str(OFFSET))
-  f.write("\n")
-  f.write( matrixToString(hSig) )
-  f.write("\n")
-  f.write( matrixToString(fSig) )
+  f.write( str(fht) )
   f.close()
 
   print " ------ FHT Matrix Computed ------ "
-  print " The HTML matrix has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/fht/* /WEB_APP/data/computed/fht "
+  print " The FHT matrix has been saved in {0} ".format(OP_PATH)
+  print " RUN: cp ./output/fht/{0} ../content-visualization/app/data/computed/fht/".format(fileName)
+  print " You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName)
+  print " ------ VISUALIZATION READY ------ "
+
+def runFHTC():
+  SFILE_PATH = sys.argv[2]
+  CFILE_PATH = sys.argv[3]
+
+  OFFSET = int(sys.argv[4])
+
+  safeMkdir(join("output", "fht"))
+  fileName = "correlation"
+  OP_PATH = join("output", "fht", str(fileName))
+
+  r1 = HTFileReader(SFILE_PATH, OFFSET)
+  fht1 = FHTAnalyzer(OFFSET)
+  r1.read(fht1.compute)
+
+  r2 = HTFileReader(CFILE_PATH, OFFSET)
+  fht2 = FHTAnalyzer(OFFSET)
+  r2.read(fht2.compute)
+
+  cm = CompareFHT(fht1.signature(), fht2.signature())
+  cm.correlate()
+
+  f = open(OP_PATH, "w+")
+  f.write( str(cm) )
+  f.close()
+
+  print " ------ FHT Correlation Computed ------ "
+  print " The FHT matrix has been saved in {0} ".format(OP_PATH)
+  print " THE Assurance Level for the 2 files is : {0}".format(cm.assuranceLevel())
+  print " RUN: cp ./output/fht/{0} ../content-visualization/app/data/computed/fht/".format(fileName)
   print " You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -144,6 +166,8 @@ elif TYPE == "bfcc":
   runBFCC()
 elif TYPE == "fht":
   runFHT()
+elif TYPE == "fhtc":
+  runFHTC()
 
 
 print " Ensure that you have the visualization engine running as a Grunt JS app ( or ) "

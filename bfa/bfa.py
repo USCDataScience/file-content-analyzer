@@ -30,3 +30,6 @@ class BFAnalyzer:
 
   def frequency(self):
     return self.__frequency
+
+  def __str__(self):
+    return ",".join(map(str, self.__frequency))
