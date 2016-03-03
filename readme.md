@@ -1,5 +1,7 @@
 ## Analysis Interface
 
+CSCI-599 Spring 2016 - Team 1, Assignment 1
+
 ###Byte Frequency Analysis
 
 ```python
