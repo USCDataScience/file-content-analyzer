@@ -11,7 +11,6 @@ from bfcc.bfcc import *
 from rw.ht_reader import *
 from fht.fht import *
 
-
 # TYPE of operation
 TYPE = sys.argv[1]
 
@@ -31,7 +30,7 @@ def runBFA():
   SFILE_PATH = sys.argv[2]
 
   safeMkdir(join("output", "bfa"))
-  fileName = time.time()
+  fileName = "computed"
   OP_PATH = join("output", "bfa", str(fileName))
 
   r = FileReader(SFILE_PATH)
@@ -53,7 +52,7 @@ def runBFC():
   CFILE_PATH = sys.argv[3]
 
   safeMkdir(join("output", "bfc"))
-  fileName = time.time()
+  fileName = "computed"
   OP_PATH = join("output", "bfc", str(fileName))
 
   r1 = FileReader(SFILE_PATH)
@@ -86,7 +85,7 @@ def runBFCC():
   SFILE_PATH = sys.argv[2]
 
   safeMkdir(join("output", "bfcc"))
-  fileName = time.time()
+  fileName = "computed"
   OP_PATH = join("output", "bfcc", str(fileName))
 
   r = FileReader(SFILE_PATH)
@@ -112,7 +111,7 @@ def runFHT():
   OFFSET = int(sys.argv[3])
 
   safeMkdir(join("output", "fht"))
-  fileName = time.time()
+  fileName = "computed"
   OP_PATH = join("output", "fht", str(fileName))
 
   r = HTFileReader(SFILE_PATH, OFFSET)
@@ -131,7 +130,7 @@ def runFHT():
   print " ------ FHT Matrix Computed ------ "
   print " The HTML matrix has been saved in {0} ".format(OP_PATH)
   print " RUN: cp ./output/fht/* /WEB_APP/data/computed/fht "
-  print " You can view the visualization at {0}#/visualize/fht/{1}".format(VISUALIZATION_APP, fileName)
+  print " You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName)
   print " ------ VISUALIZATION READY ------ "
 
 # CREATE OUTPUT PATH
