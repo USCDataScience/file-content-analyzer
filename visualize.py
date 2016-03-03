@@ -6,7 +6,7 @@ import time
 from rw.reader import *
 from bfa.bfa import *
 from bfa.compare import *
-from bfcc.bfcc import *
+from bfa.cross import *
 
 from rw.ht_reader import *
 from fht.fht import *

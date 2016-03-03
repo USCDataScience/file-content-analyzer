@@ -19,7 +19,3 @@ class BFCrossCorrelator:
         correlation[j][i] = math.exp(exp)
 
     return correlation
-
-
-
-

@@ -21,6 +21,6 @@ def load(folder):
   return
 
 if __name__ == '__main__':
-  p = Pool()
+  p = Pool(5)
   left = filter(lambda f: f not in DONE_LIST, FOLDERS)
   p.map(load, left)
