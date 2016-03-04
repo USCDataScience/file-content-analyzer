@@ -153,6 +153,8 @@ onto 3 separate files. (`batch/fht.py`)
 (`batch/fht_aggreagte.py`)
 
 
+Similar approaches for BFC and BFCC calculation with `bfc_aggregate.py` and `bfcc_aggregate.py`.
+
 ***
 
 ##Visualizing Results
@@ -166,5 +168,6 @@ __Note:__ The generated signatures need to be moved into the /data folder in the
 python visualize.py bfa <FilePath>
 python visualize.py bfc <FilePath1> <FilePath2>
 python visualize.py bfcc <FilePath>
-python visualize.py fht <FilePath>
+python visualize.py fht <FilePath> <OFFSET>
+python visualize.py fhtc <FilePath1> <FilePath2> <OFFSET>
 ```
