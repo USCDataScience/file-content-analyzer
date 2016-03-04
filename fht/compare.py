@@ -48,13 +48,3 @@ class CompareFHT:
     al = max( sum(cor[0]) / len(cor[0]), sum(cor[0]) / len(cor[1]) )
 
     return al
-
-  def __str__(self):
-    arrayToString   = lambda x: ",".join(map(str, x))
-    matrixToString  = lambda m: "\n".join(map(arrayToString, m))
-
-    return "{0}\n{1}\n{2}".format(
-      self.offset,
-      matrixToString(self._correlation[0]),
-      matrixToString(self._correlation[1]),
-    )

@@ -21,11 +21,6 @@ class FHTAverage:
   def fingerprint(self):
     return self._fingerprint
 
-  @staticmethod
-  def getInstance(offset):
-    initHead = [ [0 for x in range(256)] for x in range(offset) ]
-    initTrail = [ [0 for x in range(256)] for x in range(offset) ]
-    return FHTAverage((initHead, initTrail), 0)
 
   def __str__(self):
     arrayToString   = lambda x: ",".join(map(str, x))
@@ -36,3 +31,9 @@ class FHTAverage:
       matrixToString(self._fingerprint[0]),
       matrixToString(self._fingerprint[1]),
     )
+
+  @staticmethod
+  def getInstance(offset):
+    initHead = [ [0 for x in range(256)] for x in range(offset) ]
+    initTrail = [ [0 for x in range(256)] for x in range(offset) ]
+    return FHTAverage((initHead, initTrail), 0)

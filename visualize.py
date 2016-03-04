@@ -144,8 +144,11 @@ def runFHTC():
   cm = CompareFHT(fht1.signature(), fht2.signature())
   cm.correlate()
 
+  avg = FHTAverage(fht1.signature(), 1)
+  avg = avg.accumulate(fht2.signature())
+
   f = open(OP_PATH, "w+")
-  f.write( str(cm) )
+  f.write( str(avg) )
   f.close()
 
   print " ------ FHT Correlation Computed ------ "
