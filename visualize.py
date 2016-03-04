@@ -40,7 +40,7 @@ def runBFA():
 
   print " ------ BFA Signature Computed ------ "
   print " The signature has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfa/{0} ../content-visualization/app/data/computed/bfa/".format(fileName)
+  print " RUN: cp ./output/bfa/{0} WEBAPP_PATH/data/computed/bfa/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfa/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -71,7 +71,7 @@ def runBFC():
 
   print " ------ BF Correlation Computed ------ "
   print " The correlation has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfc/{0} ../content-visualization/app/data/computed/bfc/".format(fileName)
+  print " RUN: cp ./output/bfc/{0} WEBAPP_PATH/data/computed/bfc/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -96,7 +96,7 @@ def runBFCC():
 
   print " ------ BF Cross Correlation Computed ------ "
   print " The cross-correlation matrix has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/bfcc/{0} ../content-visualization/app/data/computed/bfcc/".format(fileName)
+  print " RUN: cp ./output/bfcc/{0} WEBAPP_PATH/data/computed/bfcc/".format(fileName)
   print " You can view the visualization at {0}#/visualize/bfcc/{1}".format(VISUALIZATION_APP, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -119,7 +119,7 @@ def runFHT():
 
   print " ------ FHT Matrix Computed ------ "
   print " The FHT matrix has been saved in {0} ".format(OP_PATH)
-  print " RUN: cp ./output/fht/{0} ../content-visualization/app/data/computed/fht/".format(fileName)
+  print " RUN: cp ./output/fht/{0} WEBAPP_PATH/data/computed/fht/".format(fileName)
   print " You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName)
   print " ------ VISUALIZATION READY ------ "
 
@@ -151,7 +151,7 @@ def runFHTC():
   print " ------ FHT Correlation Computed ------ "
   print " The FHT matrix has been saved in {0} ".format(OP_PATH)
   print " THE Assurance Level for the 2 files is : {0}".format(cm.assuranceLevel())
-  print " RUN: cp ./output/fht/{0} ../content-visualization/app/data/computed/fht/".format(fileName)
+  print " RUN: cp ./output/fht/{0} WEBAPP_PATH/data/computed/fht/".format(fileName)
   print " You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName)
   print " ------ VISUALIZATION READY ------ "
 
