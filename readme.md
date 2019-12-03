@@ -85,7 +85,7 @@ python download.py <MOUNT_POINT> <END_POINT>
 find <END_POINT> -type f | sed 's%/[^/]*$%%' | sort | uniq -c
 ```
 
-## #Step 2: Parallelizing Download
+### Step 2: Parallelizing Download
 
 __Progressive file download (MAP Phase):__
 Tika server is inherently multi-threaded. So parallelizing the download
