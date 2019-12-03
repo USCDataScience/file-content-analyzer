@@ -18,7 +18,7 @@ print analyzer.clean()
 # http://www.forensicswiki.org/w/images/f/f9/Mcdaniel01.pdf
 ```
 
-### . Byte Frequency Correlation
+### Byte Frequency Correlation
 
 ```python
 from bfc.bfc import *
@@ -48,7 +48,7 @@ r.read(fht.compute)
 print fht.signature()
 ```
 
-## #File Header Trailer Assurance Level
+### File Header Trailer Assurance Level
 
 ```python
 from fht.fht import *
@@ -67,7 +67,7 @@ print cm.assuranceLevel()
 The [Trec-Polar](https://github.com/chrismattmann/trec-dd-polar) data set contains data in the
 common crawl format. It's available on S3.
 
-###Step 1: Download Interface
+### Step 1: Download Interface
 
 [Use RIOFS](https://github.com/skoobe/riofs)
 Mount the given S3 bucket onto local folder
@@ -117,7 +117,7 @@ Once the 5 individual folders are downloaded completely they can be grouped into
 python group.py <PATH TO PARENT FOLDER>
 ```
 
-###Step 3: Cleaning Data
+### Step 3: Cleaning Data
 
 The application-octet stream folder contained a lot of empty files. The `empty.py` script bins these empty files
 separately.
