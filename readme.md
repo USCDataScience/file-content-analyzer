@@ -2,7 +2,7 @@
 
 CSCI-599 Spring 2016 - Team 1, Assignment 1
 
-###Byte Frequency Analysis
+### Byte Frequency Analysis
 
 ```python
 from rw.reader import *
@@ -18,7 +18,7 @@ print analyzer.clean()
 # http://www.forensicswiki.org/w/images/f/f9/Mcdaniel01.pdf
 ```
 
-###Byte Frequency Correlation
+### . Byte Frequency Correlation
 
 ```python
 from bfc.bfc import *
@@ -27,7 +27,7 @@ fs = BFCorrelator(baseSignature)
 print fs.correlate(compareWith)
 ```
 
-###Byte Frequency Cross-Correlation
+### Byte Frequency Cross-Correlation
 
 ```python
 from bfa.cross import *
@@ -36,7 +36,7 @@ c = BFCrossCorrelator(signature)
 print c.correlate()
 ```
 
-###File Header Trailer Analysis
+### File Header Trailer Analysis
 
 ```python
 from fht.fht import *
@@ -48,7 +48,7 @@ r.read(fht.compute)
 print fht.signature()
 ```
 
-###File Header Trailer Assurance Level
+## #File Header Trailer Assurance Level
 
 ```python
 from fht.fht import *
@@ -85,7 +85,7 @@ python download.py <MOUNT_POINT> <END_POINT>
 find <END_POINT> -type f | sed 's%/[^/]*$%%' | sort | uniq -c
 ```
 
-###Step 2: Parallelizing Download
+## #Step 2: Parallelizing Download
 
 __Progressive file download (MAP Phase):__
 Tika server is inherently multi-threaded. So parallelizing the download
@@ -124,11 +124,11 @@ separately.
 
 ***
 
-##Signature Computation
+## Signature Computation
 
 We leveraged python `multiprocess` BFA and FHT signature computation using a 2 phased Map-Reduce approach.
 
-###BFA
+### BFA
 
 1. Map Phase: A pool of n threads compute signatures for files in a given bin and write the file-size and signatures
 into a CSV output file. (`batch/bfa.py`)
@@ -136,7 +136,7 @@ into a CSV output file. (`batch/bfa.py`)
 (`batch/bfa_aggreagte.py`) __Note:__ This only uses 75% of the signatures to compute the average. For types with
 fewer than 5 files all the signatures are used.
 
-####Size Clustering
+#### Size Clustering
 
 The `r/size-summary.r` script reads the generated signature files and runs k-means clustering based on the file-sizes
 for a given type. It also generates jpeg plots for the file-size variations for each cluster.
@@ -145,7 +145,7 @@ The `batch/bfa_size_aggreagate.py` script reads the output generated from `size-
 for each size-cluster for a given file type. __Note:__ This only happens for types with no fewer than 5 unique signatures.
 
 
-###FHT
+### FHT
 
 1. Map Phase: A pool of n threads read the first and last 4,8 and 16 bytes of all the files in a given bin and store them
 onto 3 separate files. (`batch/fht.py`)
@@ -157,7 +157,7 @@ Similar approaches for BFC and BFCC calculation with `bfc_aggregate.py` and `bfc
 
 ***
 
-##Visualizing Results
+## Visualizing Results
 
 A separate grunt angular application has been built to visualize these results. The `visualize.py` script computes
 BFA, BFC, Cross-Correlation and FHT on given files and produces signatures in a format readable by the web-app.
